@@ -28,7 +28,7 @@ let [success, setSuccess] = useState("");
       setError(result);
     } else {
     
-      axios.post("/auth/login", data).then((res) => {
+      axios.post("auth/login", data).then((res) => {
         if (res.data.status === "error") {
           setError(res.data.data.message);
   

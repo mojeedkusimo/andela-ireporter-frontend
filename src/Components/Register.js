@@ -31,7 +31,7 @@ let Register = () => {
 
     let check = checkData(data);
       if ( check === null) {
-      axios.post('/auth/register', data).then((res) => {
+      axios.post('auth/register', data).then((res) => {
             if (res.data.status === "error" ) {
                 setError(res.data.data.message);
       
