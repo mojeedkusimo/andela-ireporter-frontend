@@ -13,7 +13,7 @@ let Navbar = () => {
     return (
         <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top row">
-                <div className="col-9" id="">
+                <div className="col-10">
                     <ul className="navbar-nav">
                         <li className="nav-item active">
                             <Link className="nav-link" to="/">Home</Link>
@@ -29,7 +29,7 @@ let Navbar = () => {
                         </li>
                     </ul>
                 </div>
-                <div className="col-3" id="">
+                <div className="col-2">
                     <ul className="navbar-nav">
                         {checkLogin}
                     </ul>

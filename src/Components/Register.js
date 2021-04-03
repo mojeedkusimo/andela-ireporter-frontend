@@ -16,9 +16,8 @@ let Register = () => {
   let [success, setSuccess] = useState("");
 
   let handleSubmit = (e) => {
-      e.preventDefault();
+    e.preventDefault();
       
-
     setError("");
     setSuccess("");
     let data = {

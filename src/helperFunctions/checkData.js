@@ -6,7 +6,7 @@ let checkData = (inputFields) => {
         return input === "";
     });
 
-    if (result !== undefined ) {
+    if ( result !== undefined ) {
         return "Please fill all fields";   
     } 
 
