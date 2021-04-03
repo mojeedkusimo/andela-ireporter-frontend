@@ -74,8 +74,8 @@ let Register = () => {
                   <label>Phone Number</label>
                   <input type="number" className="form-control" id="number" placeholder="234123456789" value={phoneNumber} onChange={(e) => setPhoneNumber(Number(e.target.value))}/>
               </div>
-              <div class="form-group">
-                <label for="isadmin">Admin</label>
+              <div className="form-group">
+                <label>Admin</label>
                 <select id="isadmin" className="form-control" value={isadmin} onChange={(e) => setIsAdmin(e.target.value)}>
                     <option></option>
                     <option>True</option>

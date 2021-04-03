@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "../helperFunctions/customAxios";
 import jwtDecode from 'jwt-decode';
 import { useHistory } from 'react-router-dom';
 import checkData from "../helperFunctions/checkData";
+import { UserContext } from "../helperFunctions/UserContext";
 
 let Login = () => {
 
+let {isLoggedin, setLogin} = useContext(UserContext);
 let history = useHistory();
 let [email, setEmail] = useState("");
 let [password, setPassword] = useState("");
@@ -36,6 +38,7 @@ let [success, setSuccess] = useState("");
           let {token} = res.data.data;
           let user = (jwtDecode(token));
           localStorage.setItem("userData", JSON.stringify(user));
+          setLogin(true);
           history.push('/dashboard');
         }
       });
@@ -47,7 +50,7 @@ let [success, setSuccess] = useState("");
     <div className="row mt-5">
       <div className="col-4"></div>
       <div className="col-4">
-          <h1 className="m-5 text-center shadow-lg">Login</h1>
+          <h1 className="m-5 text-center shadow-lg">Login {isLoggedin}</h1>
           <form className="bg-light p-5" onSubmit={(e) => handleSubmit(e)}>
               <span className="text-danger">{error}</span>
               <span className="text-success">{success}</span>
