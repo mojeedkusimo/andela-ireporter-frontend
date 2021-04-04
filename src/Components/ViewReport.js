@@ -33,12 +33,12 @@ let ViewReport = () => {
     },[])
 
 
-    let modify = user.firstname === report.firstname ? 
+    let modify = user !== null ? user.firstname === report.firstname ? 
                 <div className='row mt-5'>
                     <div className='col-4 text-left'><button className='btn btn-success'>Edit</button></div>
                     <div className='col-4 text-center text-danger'>{error}</div>
                     <div className='col-4 text-right'><button className='btn btn-danger' onClick={() => deleteReport(user.user_id, user.feed_id)}>Delete</button></div>
-                </div> : null
+                </div> : null : null
 
     return (
     <div>
