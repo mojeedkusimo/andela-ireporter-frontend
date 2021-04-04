@@ -3,7 +3,7 @@ import axios from "../helperFunctions/customAxios";
 import jwtDecode from 'jwt-decode';
 import { useHistory } from 'react-router-dom';
 import checkData from "../helperFunctions/checkData";
-import { UserContext } from "../helperFunctions/UserContext";
+import { UserContext } from "../helperFunctions/AllContexts";
 
 let Login = () => {
 
