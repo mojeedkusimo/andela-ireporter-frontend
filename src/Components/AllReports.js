@@ -32,14 +32,13 @@ let AllReports = () => {
     return (
     <div>
         <div className="mt-5 row">
-            <div className='col'></div>
-            <div className='col-10'>
+            <div className='col-3 p-4 fixed-top margin-x border border-primary rounded'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatibus iste, tenetur in dolor placeat mollitia aliquid fugit harum ipsa quis sunt blanditiis exercitationem autem iure nobis nemo laboriosam, dignissimos magnam!</div>
+            <div className='col'>
                 <div>
                     <h1 className="m-5 text-center shadow-lg">All Reports</h1>
                     {reports}
                 </div>
             </div>
-            <div className='col'></div> 
         </div>
     </div>
     );

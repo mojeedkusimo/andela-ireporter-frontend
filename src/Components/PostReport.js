@@ -43,7 +43,7 @@ let [type, setType] = useState("");
         <div className="col-4"></div>
         <div className="col-4">
             <h1 className="m-5 text-center shadow-lg">Create a Post</h1>
-            <form className="bg-light p-5" onSubmit={(e) => handleSubmit(e)}>
+            <form className="bg-light p-5 mb-5" onSubmit={(e) => handleSubmit(e)}>
             <span className="text-danger">{error}</span>
                 <div className="form-group">
                     <label>Title</label>
