@@ -14,6 +14,7 @@ let ViewReport = () => {
     let [contextCount, setContextCount] = useState(0);
     let { viewReport } = useContext(ReportContext);
     let [error, setError] = useState('');
+    let [success, setSuccess] = useState(false);
     let [report, setReport] = useState("");
     let [edit, setEdit] = useState(false);
     let [status, setStatus] = useState("");
@@ -57,12 +58,13 @@ let ViewReport = () => {
     }
 
     let updateStatus = async (status) => {
-
+        setSuccess(true);
         let res = await axios.patch(`view-report/${viewReport}`, {status});
 
         if (res.data.status === 'error') {
             alert(res.data.data.message);
         } else {
+            setSuccess(false);
             alert(res.data.data.message);
             history.push('/all-reports');
         }  
@@ -89,23 +91,42 @@ let ViewReport = () => {
         getReport();
     },[setOtherStatus, setReport, report.status, viewReport]);
 
-    let modify = user !== null ? user.firstname === report.firstname ? 
-                <div className='row mt-5'>
-                    <div className='col-4 text-left'><button className='btn btn-success' onClick={() => setEdit(!edit)}>Edit</button></div>
-                    <div className='col-4 text-center btn btn-light border border-primary'>{user.isadmin ?                 
-                        <div>
-                            <select id="type" className="form-control bg-light border border-primary" value={status} onChange={(e) => setStatus(e.target.value)}>
-                                <option key={report.id}>{report.status}</option>
-                                {otherStatus}
-                            </select>
-                            <button className='btn border border-primary my-2' onClick={() => updateStatus(status)}>Update</button>
+    let modify = user !== null ? user.firstname === report.firstname ?
+                 <div>
+                    {success ?                 
+                    <div className="row text-center">
+                        <div className='col h5 text-primary'>
+                            <i>.....Hang on while we process your request</i>
                         </div>
-                        : report.status}</div>
-                    <div className='col-4 text-right'><button className='btn btn-danger' onClick={() => deleteReport(viewReport)}>Delete</button></div>
-                </div> :                 
+                    </div>
+                    : null}  
+                    <div className='row mt-5'>
+                        <div className='col-4 text-left'><button className='btn btn-success' onClick={() => setEdit(!edit)}>Edit</button></div> 
+                        <div className='col-4 text-center btn btn-light border border-primary'>                 
+                        {user.isadmin ?                 
+                            <div>
+                                <select id="type" className="form-control bg-light border border-primary" value={status} onChange={(e) => setStatus(e.target.value)}>
+                                    <option key={report.id}>{report.status}</option>
+                                    {otherStatus}
+                                </select>
+                                <button className='btn border border-primary my-2' onClick={() => updateStatus(status)}>Update</button>
+                            </div>
+                            : report.status}</div>
+                        <div className='col-4 text-right'><button className='btn btn-danger' onClick={() => deleteReport(viewReport)}>Delete</button></div>
+                    </div> 
+                </div>
+                :                 
                 <div className='row mt-5'>
                     <div className='col-4'></div>
-                    <div className='col-4 text-center btn btn-light border border-primary'>{user.isadmin ?
+                    {success ?                 
+                    <div className="row text-center">
+                        <div className='col h2'>
+                            <i>.....Processing update</i>
+                        </div>
+                    </div>
+                    : null}   
+                    <div className='col-4 text-center btn btn-light border border-primary'>
+                    {user.isadmin ?
                         <div>
                             <select id="type" className="form-control bg-light border border-primary" value={status} onChange={(e) => setStatus(e.target.value)}>
                                 <option>{report.status}</option>

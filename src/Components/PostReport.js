@@ -12,22 +12,26 @@ let [error, setError] = useState("");
 let [title, setTitle] = useState("");
 let [context, setContext] = useState("");
 let [type, setType] = useState("");
+let [success, setSuccess] = useState(false);
 
  let handleSubmit = (e) => {
     e.preventDefault();
 
     setError("");
+
     let user_id = user === null ? null : user.id; 
 
     let data = { user_id, title, context, type, status: "open" };
     let check = checkData(data);
 
     if ( check === null) {
+        setSuccess(true);
         axios.post("new-report", data ).then((res) => {
             if (res.data.status === "error") {
                 setError(res.data.data.message);
 
             } else {
+                setSuccess(false);
                 alert(res.data.data.message);
                 history.push("/all-reports");
             }
@@ -45,6 +49,7 @@ let [type, setType] = useState("");
             <h1 className="m-5 text-center shadow-lg">Create a Post</h1>
             <form className="bg-light p-5 mb-5" onSubmit={(e) => handleSubmit(e)}>
             <span className="text-danger">{error}</span>
+            <p className='col h6 text-primary text-center'>{success ? <i>.....Hang on while we process your request</i> : null}</p>
                 <div className="form-group">
                     <label>Title</label>
                     <input type="text" className="form-control" id="title" placeholder="Subject" value={title} onChange={(e) => setTitle(e.target.value)}/>

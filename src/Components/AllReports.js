@@ -53,7 +53,7 @@ let AllReports = () => {
                     <h1 className="m-5 text-center shadow-lg">All Reports</h1>
                     {reports ? reports : 
                         <div className="row text-center">
-                            <div className='col h2'>
+                            <div className='col h2 text-primary'>
                                 <i>.....Please wait while we fetch some data</i>
                             </div>
                         </div>
