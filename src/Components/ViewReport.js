@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import axios from "../helperFunctions/customAxios";
 import { useContext, useState, useEffect } from 'react';
 import { ReportContext } from '../helperFunctions/AllContexts';
-import checkData from '../helperFunctions/checkData';
 
 let ViewReport = () => {
 
@@ -28,7 +27,6 @@ let ViewReport = () => {
 
         let trueTitle = title === "" ? report.title : title;
         let trueContext = context === "" ? report.context : context;
-;
         let data = {
             title: trueTitle,
             context: trueContext

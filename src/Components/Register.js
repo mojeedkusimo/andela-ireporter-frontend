@@ -13,13 +13,13 @@ let Register = () => {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [phoneNumber, setPhoneNumber] = useState("");
-  let [isadmin, setIsAdmin] = useState("");
   let [error, setError] = useState("");
   let [success, setSuccess] = useState("");
 
   let handleSubmit = (e) => {
     e.preventDefault();
-      
+
+    let isadmin = user === null ? false : true
     setError("");
     setSuccess("");
     let data = {
@@ -32,16 +32,14 @@ let Register = () => {
     }
 
     let check = checkData(data);
-      if ( check === null) {
+      if ( check === null ) {
       axios.post('auth/register', data).then((res) => {
-            if (res.data.status === "error" ) {
+            if ( res.data.status === "error" ) {
                 setError(res.data.data.message);
-      
               } else {
                 alert(res.data.data.message);
                 history.push('/login');
               }
-
           });
       } else {
         setError(check);
@@ -79,10 +77,8 @@ let Register = () => {
               { user !== null ? user.id === 2 ? 
               <div className="form-group">
                 <label>Admin</label>
-                <select id="isadmin" className="form-control" value={isadmin} onChange={(e) => setIsAdmin(e.target.value)}>
-                    <option></option>
+                <select id="isadmin" className="form-control">
                     <option>True</option>
-                    <option>False</option>
                 </select>
                </div>
                : null : null }

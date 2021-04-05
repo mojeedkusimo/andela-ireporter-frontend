@@ -35,7 +35,7 @@ let AllReports = () => {
         }
 
         getAllReports();
-    },[])
+    },[setViewReport])
     return (
     <div>
         <div className="mt-5 row">

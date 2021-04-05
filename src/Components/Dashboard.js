@@ -37,7 +37,7 @@ let Dashboard = () => {
         }
 
         getAllReports();
-    },[])
+    },[setViewReport, user.id])
 
     return (
     <div className="row mt-5">
