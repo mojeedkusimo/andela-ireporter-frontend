@@ -115,16 +115,17 @@ let ViewReport = () => {
                         <div className='col-4 text-right'><button className='btn btn-danger' onClick={() => deleteReport(viewReport)}>Delete</button></div>
                     </div> 
                 </div>
-                :                 
-                <div className='row mt-5'>
-                    <div className='col-4'></div>
-                    {success ?                 
+                : 
+                <div>
+                {success ?                 
                     <div className="row text-center">
-                        <div className='col h2'>
-                            <i>.....Processing update</i>
+                        <div className='col h5 text-primary'>
+                            <i>.....Hang on while we process your request</i>
                         </div>
                     </div>
-                    : null}   
+                    : null}                
+                <div className='row mt-5'>
+                    <div className='col-4'></div>   
                     <div className='col-4 text-center btn btn-light border border-primary'>
                     {user.isadmin ?
                         <div>
@@ -134,7 +135,9 @@ let ViewReport = () => {
                             </select>
                             <button className='btn border border-primary my-2' onClick={() => updateStatus(status)}>Update</button>
                         </div>
+                        
                         : report.status}</div>
+                    </div>
                     <div className='col-4'></div>
                 </div>  : null
 
@@ -157,7 +160,7 @@ let ViewReport = () => {
         </div>
 
         :<div className="row margin-x text-center">
-            <div className='col h2'>
+            <div className='col h2 text-primary'>
                 <i>.....Please wait while we fetch some data</i>
             </div>
         </div>
