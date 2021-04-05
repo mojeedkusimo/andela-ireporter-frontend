@@ -62,6 +62,7 @@ let ViewReport = () => {
         let res = await axios.patch(`view-report/${viewReport}`, {status});
 
         if (res.data.status === 'error') {
+            setSuccess(false);
             alert(res.data.data.message);
         } else {
             setSuccess(false);
