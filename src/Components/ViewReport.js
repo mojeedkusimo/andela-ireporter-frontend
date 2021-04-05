@@ -102,7 +102,7 @@ let ViewReport = () => {
                     </div>
                     : null}  
                     <div className='row mt-5'>
-                        <div className='col-4 text-left'><button className='btn btn-success' onClick={() => setEdit(!edit)}>Edit</button></div> 
+                        <div className='col-4 text-left'><button className='btn btn-primary' onClick={() => setEdit(!edit)}>Edit</button></div> 
                         <div className='col-4 text-center btn btn-light border border-primary'>                 
                         {user.isadmin ?                 
                             <div>
@@ -147,7 +147,7 @@ let ViewReport = () => {
         {viewReport ? edit 
         ? null
         :report ? 
-            <div>
+        <div>
             <div className="row mt-5">
                 <div className="col-4"></div>
                 <div className="col-4">
@@ -158,6 +158,16 @@ let ViewReport = () => {
                 </div>
                 <div className="col-4"></div>
             </div>
+            {report.image_source ? 
+                <div className='row'>
+                <div className="col-4"></div>
+                <div className="col-4">
+                    <img className='img-fluid rounded' src={report.image_source} alt='proof'/>
+                </div>
+                <div className="col-4"></div>
+            </div> 
+            :null }
+            
         </div>
 
         :<div className="row margin-x text-center">
@@ -183,7 +193,7 @@ let ViewReport = () => {
                         <label>Description</label>
                         <textarea type="text" className="form-control" id="description" placeholder="Write something here..." value={contextCount === 0 ? report.context: context} onChange={(e) => {setContext(e.target.value); setContextCount(contextCount+1);}}/>
                     </div>
-                    <button type="submit" className="btn btn-success mb-2">Update</button>
+                    <button type="submit" className="btn btn-primary mb-2">Update</button>
                 </form>
             </div>
             <div className="col-4"></div>

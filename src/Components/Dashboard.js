@@ -43,11 +43,11 @@ let Dashboard = () => {
     <div className="row mt-5">
         <div className='col-3 p-4 fixed-top margin-x border border-primary rounded'>
             <ul>
-                <li>Total Reports: {count.allReports}</li>
-                <li>Total Reports Open: {count.open}</li>
-                <li>Total Reports Under Investigation: {count.underInvestigation}</li>
-                <li>Total Reports Rejected: {count.rejected}</li>
-                <li>Total Reports Resolved: {count.resolved}</li>
+                <li>My Total Reports: {count.allReports}</li>
+                <li>My Reports Open: {count.open}</li>
+                <li>My Reports Under Investigation: {count.underInvestigation}</li>
+                <li>My Reports Rejected: {count.rejected}</li>
+                <li>My Reports Resolved: {count.resolved}</li>
             </ul>
         </div>
         <div className="col">

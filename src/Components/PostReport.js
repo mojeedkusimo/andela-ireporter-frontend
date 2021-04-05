@@ -12,26 +12,54 @@ let [error, setError] = useState("");
 let [title, setTitle] = useState("");
 let [context, setContext] = useState("");
 let [type, setType] = useState("");
+let [file, setFile] = useState("");
+let [previewSource, setPreviewSource] = useState("");
 let [success, setSuccess] = useState(false);
 
- let handleSubmit = (e) => {
+let previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+        setPreviewSource(reader.result);
+        console.log(typeof(reader.result), reader.result.length);
+    };
+}
+
+let handleFileUpload = (e) => {
+    // setFile("");
+    setError("");
+    const fileString = e.target.value;
+    const file = e.target.files[0];
+
+    setFile(fileString);
+    if (fileString.slice(-3).toLowerCase() !== "png" && fileString.slice(-3).toLowerCase() !== "jpg" && fileString.slice(-4).toLowerCase() !== "jpeg") {
+        setError("Only image files are allowed! ");
+        setFile("");
+    } else {
+    //     // console.log(file);
+        previewFile(file);
+    }
+}
+
+let handleSubmit = (e) => {
     e.preventDefault();
 
     setError("");
 
     let user_id = user === null ? null : user.id; 
 
-    let data = { user_id, title, context, type, status: "open" };
+    let data = { user_id, title, context, type, imageSource: previewSource, status: "open" };
     let check = checkData(data);
 
     if ( check === null) {
         setSuccess(true);
         axios.post("new-report", data ).then((res) => {
+            setSuccess(false);
             if (res.data.status === "error") {
                 setError(res.data.data.message);
+                console.log(typeof(previewSource), previewSource.length);
 
             } else {
-                setSuccess(false);
                 alert(res.data.data.message);
                 history.push("/all-reports");
             }
@@ -46,7 +74,7 @@ let [success, setSuccess] = useState(false);
     <div className="row mt-5">
         <div className="col-4"></div>
         <div className="col-4">
-            <h1 className="m-5 text-center shadow-lg">Create a Post</h1>
+            <h1 className="m-5 text-center shadow-lg">New Report</h1>
             <form className="bg-light p-5 mb-5" onSubmit={(e) => handleSubmit(e)}>
             <span className="text-danger">{error}</span>
             <p className='col h6 text-primary text-center'>{success ? <i>.....Hang on while we process your request</i> : null}</p>
@@ -66,7 +94,11 @@ let [success, setSuccess] = useState(false);
                     <option>intervention</option>
                 </select>
                </div>
-                <button type="submit" className="btn btn-primary mb-2">Post</button>
+               <div className="form-group">
+                    <label>Image Upload</label>
+                    <input type="file" className="form-control" id="title" value={file} onChange={handleFileUpload}/>
+                </div>
+                <button type="submit" className="btn btn-primary mb-2">Submit</button>
             </form>
         </div>
         <div className="col-4"></div>
