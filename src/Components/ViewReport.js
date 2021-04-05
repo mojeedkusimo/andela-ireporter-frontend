@@ -7,16 +7,16 @@ import checkData from '../helperFunctions/checkData';
 
 let ViewReport = () => {
 
+    let user = getUser();
+    let history = useHistory();
+    let [otherStatus, setOtherStatus] = useState("");
     let [titleCount, setTitleCount] = useState(0);
     let [contextCount, setContextCount] = useState(0);
     let { viewReport } = useContext(ReportContext);
     let [error, setError] = useState('');
-    let user = getUser();
-    let history = useHistory();
     let [report, setReport] = useState("");
     let [edit, setEdit] = useState(false);
-
-
+    let [status, setStatus] = useState("");
     let [title, setTitle] = useState("");
     let [context, setContext] = useState("");
 
@@ -49,7 +49,19 @@ let ViewReport = () => {
         let res = await axios.delete(`view-report/${viewReport}`);
 
         if (res.data.status === 'error') {
-            setError(res.data.data.message);
+            alert(res.data.data.message);
+        } else {
+            alert(res.data.data.message);
+            history.push('/all-reports');
+        }  
+    }
+
+    let updateStatus = async (status) => {
+
+        let res = await axios.patch(`view-report/${viewReport}`, {status});
+
+        if (res.data.status === 'error') {
+            alert(res.data.data.message);
         } else {
             alert(res.data.data.message);
             history.push('/all-reports');
@@ -60,22 +72,57 @@ let ViewReport = () => {
         let getReport = async() => {
             let fetchData = await axios.get(`view-report/${viewReport}`);
             setReport(fetchData.data.data.message);
+
+            if (fetchData.data.status === "success") {
+                let statusArray = ["open", "under investigation", "rejected", "resolved"];
+                let others = statusArray.map((s, i) => {
+                    if ( s !== report.status ) {
+                        return (
+                            <option key={i}>{s}</option>
+                        );
+                    }
+                    return null;
+                });
+                setOtherStatus(others);
+            }            
         }
         getReport();
-    },[])
-
+    },[setOtherStatus, setReport, report.status, viewReport]);
 
     let modify = user !== null ? user.firstname === report.firstname ? 
                 <div className='row mt-5'>
                     <div className='col-4 text-left'><button className='btn btn-success' onClick={() => setEdit(!edit)}>Edit</button></div>
-                    <div className='col-4 text-center text-danger'>{error}</div>
+                    <div className='col-4 text-center btn btn-light border border-primary'>{user.isadmin ?                 
+                        <div>
+                            <select id="type" className="form-control bg-light border border-primary" value={status} onChange={(e) => setStatus(e.target.value)}>
+                                <option key={report.id}>{report.status}</option>
+                                {otherStatus}
+                            </select>
+                            <button className='btn border border-primary my-2' onClick={() => updateStatus(status)}>Update</button>
+                        </div>
+                        : report.status}</div>
                     <div className='col-4 text-right'><button className='btn btn-danger' onClick={() => deleteReport(viewReport)}>Delete</button></div>
-                </div> : null : null
+                </div> :                 
+                <div className='row mt-5'>
+                    <div className='col-4'></div>
+                    <div className='col-4 text-center btn btn-light border border-primary'>{user.isadmin ?
+                        <div>
+                            <select id="type" className="form-control bg-light border border-primary" value={status} onChange={(e) => setStatus(e.target.value)}>
+                                <option>{report.status}</option>
+                                {otherStatus}
+                            </select>
+                            <button className='btn border border-primary my-2' onClick={() => updateStatus(status)}>Update</button>
+                        </div>
+                        : report.status}</div>
+                    <div className='col-4'></div>
+                </div>  : null
 
     return (
     <div>
-        {viewReport ? edit ? null :
-        <div>
+        {viewReport ? edit 
+        ? null
+        :report ? 
+            <div>
             <div className="row mt-5">
                 <div className="col-4"></div>
                 <div className="col-4">
@@ -86,8 +133,13 @@ let ViewReport = () => {
                 </div>
                 <div className="col-4"></div>
             </div>
-        </div>         
-  
+        </div>
+
+        :<div className="row margin-x text-center">
+            <div className='col h2'>
+                <i>.....Please wait while we fetch some data</i>
+            </div>
+        </div>
         : history.push("/all-reports")}
 
         { user !== null ? edit ?

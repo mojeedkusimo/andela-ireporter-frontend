@@ -26,9 +26,9 @@ let App = () => {
             <Route exact path="/" component={Home}/>
             <Route exact path="/register" component={Register}/>
             <Route exact path="/login" component={Login}/>
-            <Route exact path="/dashboard" component={Dashboard}/>
             <Route exact path="/new-report" component={PostReport}/>
             <ReportContext.Provider value={{ viewReport, setViewReport }}>
+              <Route exact path="/dashboard" component={Dashboard}/>
               <Route exact path="/all-reports" component={AllReports}/>
               <Route exact path="/view-report" component={ViewReport}/>
               <Route exact path="/my-reports" component={AllReports}/>

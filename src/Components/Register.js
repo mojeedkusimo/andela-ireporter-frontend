@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import checkData from "../helperFunctions/checkData";
 import axios from "../helperFunctions/customAxios";
+import getUser from "../helperFunctions/getUser";
 
 let Register = () => {
 
+  let user = getUser();
   let history = useHistory();
   let [firstname, setFirstname] = useState("");
   let [lastname, setLastname] = useState("");
@@ -74,6 +76,7 @@ let Register = () => {
                   <label>Phone Number</label>
                   <input type="number" className="form-control" id="number" placeholder="234123456789" value={phoneNumber} onChange={(e) => setPhoneNumber(Number(e.target.value))}/>
               </div>
+              { user !== null ? user.id === 2 ? 
               <div className="form-group">
                 <label>Admin</label>
                 <select id="isadmin" className="form-control" value={isadmin} onChange={(e) => setIsAdmin(e.target.value)}>
@@ -82,6 +85,7 @@ let Register = () => {
                     <option>False</option>
                 </select>
                </div>
+               : null : null }
               <button type="submit" className="btn btn-primary mt- mb-2">Submit</button>
           </form>
       </div>

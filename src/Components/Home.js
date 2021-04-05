@@ -18,8 +18,8 @@ let Home = () => {
                 </div>:
 
                 <div className='col-10 m-5'>
-                    <h3>{`Hi Stranger`}</h3>
-                    <h1>Welcome to iReporter!</h1>
+                    <h3>{`Hi there!`}</h3>
+                    <h1>Welcome to iReporter</h1>
                     <p>Click <Link to='/register'>Register</Link> to get started</p>
                 </div>}
             <div className='col'></div>
