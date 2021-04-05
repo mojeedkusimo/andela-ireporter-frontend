@@ -53,8 +53,17 @@ let Dashboard = () => {
         <div className="col">
             <h1 className="m-5 text-center">My Reports</h1>
             <p className='text-center'>{ user.id === 2 ? <Link to='/register' className='btn btn-primary'>Create Admin</Link> : null}</p>
-            {reports ? reports : 
-                <div className="row text-center">
+            {reports ? 
+
+                count.allReports === "0" ? 
+                        <div className="row text-center">
+                            <div className='col h2 text-primary'>
+                                <i>.....You are yet to submit a report click <Link to='/new-report'>here</Link> to submit one</i>
+                            </div>
+                        </div> 
+                        : reports 
+                
+                :<div className="row text-center">
                     <div className='col h2 text-primary'>
                         <i>.....Please wait while we fetch your data</i>
                     </div>
