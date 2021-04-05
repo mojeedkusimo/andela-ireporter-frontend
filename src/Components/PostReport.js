@@ -21,12 +21,10 @@ let previewFile = (file) => {
     reader.readAsDataURL(file);
     reader.onload = () => {
         setPreviewSource(reader.result);
-        console.log(typeof(reader.result), reader.result.length);
     };
 }
 
 let handleFileUpload = (e) => {
-    // setFile("");
     setError("");
     const fileString = e.target.value;
     const file = e.target.files[0];
@@ -36,7 +34,6 @@ let handleFileUpload = (e) => {
         setError("Only image files are allowed! ");
         setFile("");
     } else {
-    //     // console.log(file);
         previewFile(file);
     }
 }
@@ -48,7 +45,7 @@ let handleSubmit = (e) => {
 
     let user_id = user === null ? null : user.id; 
 
-    let data = { user_id, title, context, type, imageSource: previewSource, status: "open" };
+    let data = { user_id, title, context, type, imageBase64: previewSource, status: "open" };
     let check = checkData(data);
 
     if ( check === null) {
@@ -57,7 +54,6 @@ let handleSubmit = (e) => {
             setSuccess(false);
             if (res.data.status === "error") {
                 setError(res.data.data.message);
-                console.log(typeof(previewSource), previewSource.length);
 
             } else {
                 alert(res.data.data.message);
