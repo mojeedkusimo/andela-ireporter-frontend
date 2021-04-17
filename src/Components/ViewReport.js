@@ -90,55 +90,63 @@ let ViewReport = () => {
         getReport();
     },[setOtherStatus, setReport, report.status, viewReport]);
 
-    let modify = user !== null ? user.firstname === report.firstname ?
-                 <div>
-                    {success ?                 
-                    <div className="row text-center">
-                        <div className='col h5 text-primary'>
-                            <i>.....Hang on while we process your request</i>
+    let modify = user !== null ? // dynamically display divs below since a user is logged in
+                        user.firstname === report.firstname ? // dsiplay next line since its the author
+                                        <div>
+                                            {success ?                 
+                                            <div className="row text-center">
+                                                <div className='col h5 text-primary'>
+                                                    <i>.....Hang on while we process your request</i>
+                                                </div>
+                                            </div>
+                                            : null}  
+                                            <div className='row mt-5'>
+                                                <div className='col-4 text-left'><button className='btn btn-primary' onClick={() => setEdit(!edit)}>Edit</button></div> 
+                                                <div className='col-4 text-center btn btn-light border border-primary'>
+                                                {user.isadmin ?
+                                                            <div>
+                                                                <select id="type" className="form-control bg-light border border-primary" value={status} onChange={(e) => setStatus(e.target.value)}>
+                                                                    <option>{report.status}</option>
+                                                                    {otherStatus}
+                                                                </select>
+                                                                <button className='btn border border-primary my-2' onClick={() => updateStatus(status)}>Update</button>
+                                                            </div>
+                                                        : report.status}</div>
+                                                    <div className='col-4 text-right'><button className='btn btn-danger' onClick={() => deleteReport(viewReport)}>Delete</button></div>
+                                            </div> 
+                                        </div>
+                                    
+                                        : // dsiplay this since its not the author
+                                        <div>
+                                            {success ?                 
+                                                <div className="row text-center">
+                                                    <div className='col h5 text-primary'>
+                                                        <i>.....Hang on while we process your request</i>
+                                                    </div>
+                                                </div>
+                                                : null}                
+                                            <div className='row mt-5'>
+                                                <div className='col-4'></div>   
+                                                <div className='col-4 text-center btn btn-light border border-primary'>
+                                                {user.isadmin ?
+                                                            <div>
+                                                                <select id="type" className="form-control bg-light border border-primary" value={status} onChange={(e) => setStatus(e.target.value)}>
+                                                                    <option>{report.status}</option>
+                                                                    {otherStatus}
+                                                                </select>
+                                                                <button className='btn border border-primary my-2' onClick={() => updateStatus(status)}>Update</button>
+                                                            </div>
+                                                        : report.status}</div>
+                                                </div>
+                                                <div className='col-4'></div>
+                                            </div>  
+                
+                        :// display below div since no user is logged in
+                        <div className='row mt-5'>
+                            <div className='col-4'></div>   
+                            <div className='col-4 text-center btn btn-light border border-primary'>{report.status}</div>
+                            <div className='col-4'></div>
                         </div>
-                    </div>
-                    : null}  
-                    <div className='row mt-5'>
-                        <div className='col-4 text-left'><button className='btn btn-primary' onClick={() => setEdit(!edit)}>Edit</button></div> 
-                        <div className='col-4 text-center btn btn-light border border-primary'>                 
-                        {user.isadmin ?                 
-                            <div>
-                                <select id="type" className="form-control bg-light border border-primary" value={status} onChange={(e) => setStatus(e.target.value)}>
-                                    <option key={report.id}>{report.status}</option>
-                                    {otherStatus}
-                                </select>
-                                <button className='btn border border-primary my-2' onClick={() => updateStatus(status)}>Update</button>
-                            </div>
-                            : report.status}</div>
-                        <div className='col-4 text-right'><button className='btn btn-danger' onClick={() => deleteReport(viewReport)}>Delete</button></div>
-                    </div> 
-                </div>
-                : 
-                <div>
-                {success ?                 
-                    <div className="row text-center">
-                        <div className='col h5 text-primary'>
-                            <i>.....Hang on while we process your request</i>
-                        </div>
-                    </div>
-                    : null}                
-                <div className='row mt-5'>
-                    <div className='col-4'></div>   
-                    <div className='col-4 text-center btn btn-light border border-primary'>
-                    {user.isadmin ?
-                        <div>
-                            <select id="type" className="form-control bg-light border border-primary" value={status} onChange={(e) => setStatus(e.target.value)}>
-                                <option>{report.status}</option>
-                                {otherStatus}
-                            </select>
-                            <button className='btn border border-primary my-2' onClick={() => updateStatus(status)}>Update</button>
-                        </div>
-                        
-                        : report.status}</div>
-                    </div>
-                    <div className='col-4'></div>
-                </div>  : null
 
     return (
     <div>
