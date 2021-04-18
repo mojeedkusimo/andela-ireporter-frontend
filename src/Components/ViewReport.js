@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import axios from "../helperFunctions/customAxios";
 import { useContext, useState, useEffect } from 'react';
 import { ReportContext } from '../helperFunctions/AllContexts';
+import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+require('dotenv').config();
 
 let ViewReport = () => {
 
@@ -148,6 +150,13 @@ let ViewReport = () => {
                             <div className='col-4'></div>
                         </div>
 
+const mapStyles = {        
+    height: "50vh",
+    width: "100%"};
+  
+  const defaultCenter = {
+    lat: report.lat, lng: report.lon
+  }
     return (
     <div>
         {viewReport ? edit 
@@ -169,6 +178,25 @@ let ViewReport = () => {
                 <div className="col-4"></div>
                 <div className="col-4">
                     <img className='img-fluid rounded' src={report.image_source} alt='proof'/>
+                </div>
+                <div className="col-4"></div>
+            </div> 
+            :null }
+
+            {report.lat ? 
+                <div className='row mt-3'>
+                <div className="col-4"></div>
+                <div className="col-4">
+                    <LoadScript 
+                        googleMapsApiKey={process.env.GOOGLE_MAP_API_KEY}>
+                        <GoogleMap 
+                            mapContainerStyle={mapStyles}
+                            zoom={20}
+                            center={defaultCenter}
+                        >
+                            <Marker key={`Location`} position={defaultCenter}/>
+                        </GoogleMap>
+                    </LoadScript>
                 </div>
                 <div className="col-4"></div>
             </div> 

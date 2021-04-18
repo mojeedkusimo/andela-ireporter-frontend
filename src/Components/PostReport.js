@@ -10,6 +10,7 @@ let user = getUser();
 let history = useHistory();
 let [error, setError] = useState("");
 let [title, setTitle] = useState("");
+let [address, setAddress] = useState("");
 let [context, setContext] = useState("");
 let [type, setType] = useState("");
 let [file, setFile] = useState("");
@@ -45,7 +46,7 @@ let handleSubmit = (e) => {
 
     let user_id = user === null ? null : user.id; 
 
-    let data = { user_id, title, context, type, imageBase64: previewSource, status: "open" };
+    let data = { user_id, title, context, type, imageBase64: previewSource, status: "open", address };
     let check = checkData(data);
 
     if ( check === null) {
@@ -93,6 +94,10 @@ let handleSubmit = (e) => {
                <div className="form-group">
                     <label>Image Upload</label>
                     <input type="file" className="form-control" id="title" value={file} onChange={handleFileUpload}/>
+                </div>
+                <div className="form-group">
+                    <label>Location</label>
+                    <input type="text" className="form-control" id="title" placeholder="Enter address of location" value={address} onChange={(e) => setAddress(e.target.value)}/>
                 </div>
                 <button type="submit" className="btn btn-primary mb-2">Submit</button>
             </form>
