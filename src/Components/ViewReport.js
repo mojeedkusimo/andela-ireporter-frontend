@@ -1,10 +1,12 @@
 import getUser from '../helperFunctions/getUser';
+import checkData from '../helperFunctions/checkData';
 import { useHistory } from 'react-router-dom';
 import axios from "../helperFunctions/customAxios";
 import { useContext, useState, useEffect } from 'react';
 import { ReportContext } from '../helperFunctions/AllContexts';
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 require('dotenv').config();
+
 
 let ViewReport = () => {
 
@@ -21,28 +23,53 @@ let ViewReport = () => {
     let [status, setStatus] = useState("");
     let [title, setTitle] = useState("");
     let [context, setContext] = useState("");
+    let [comment, setComment] = useState("");
 
     let handleSubmit = (e) => {
         e.preventDefault();
 
         setError("");
 
-        let trueTitle = title === "" ? report.title : title;
-        let trueContext = context === "" ? report.context : context;
-        let data = {
-            title: trueTitle,
-            context: trueContext
-        };
-
-        axios.patch(`view-report/${viewReport}`, data ).then((res) => {
-            if (res.data.status === "error") {
-                setError(res.data.data.message);
-
-            } else {
-                alert(res.data.data.message);
-                history.push("/all-reports");
+        if (edit === false) {
+            let commentData = {
+                comment,
+                author_id: user.id,
+                report_id: viewReport
             }
-        });
+            let check = checkData(commentData);
+            
+            check === null 
+            ? axios.post(`new-comment`, commentData).then((res) => {
+                if (res.data.status === "error") {
+                    setError(res.data.data.message);
+    
+                } else {
+                    alert(res.data.data.message);
+                    history.push("/all-reports");
+                }
+            })
+            : setError(check);
+
+        } else {
+            let trueTitle = title === "" ? report.title : title;
+            let trueContext = context === "" ? report.context : context;
+            let data = {
+                title: trueTitle,
+                context: trueContext
+            };
+    
+            axios.patch(`view-report/${viewReport}`, data ).then((res) => {
+                if (res.data.status === "error") {
+                    setError(res.data.data.message);
+    
+                } else {
+                    alert(res.data.data.message);
+                    setEdit(!edit);
+                    history.push("/all-reports");
+                }
+            });
+    
+        }
     }
 
     let deleteReport = async () => {
@@ -173,11 +200,13 @@ const mapStyles = {
                 </div>
                 <div className="col-4"></div>
             </div>
+
             {report.image_source ? 
                 <div className='row'>
                 <div className="col-4"></div>
                 <div className="col-4">
-                    <img className='img-fluid rounded' src={report.image_source} alt='proof'/>
+                    <img height='500' width='100%' className='rounded' src={report.image_source} alt='pix-proof'/>
+                    {/* img-fluid */}
                 </div>
                 <div className="col-4"></div>
             </div> 
@@ -199,8 +228,26 @@ const mapStyles = {
                     </LoadScript>
                 </div>
                 <div className="col-4"></div>
-            </div> 
+            </div>
             :null }
+
+            {user ? 
+                <div className="row mt-5">
+                    <div className="col-4"></div>
+                    <div className="col-4">
+                        <h1 className="m-5 text-center shadow-lg">Comment</h1>
+                        <form className="bg-light p-5 mb-5" onSubmit={(e) => handleSubmit(e)}>
+                        <span className="text-danger">{error}</span>
+                            <div className="form-group">
+                                <textarea type="text" className="form-control" id="description" placeholder="Write something here..." value={comment} onChange={(e)=> setComment(e.target.value)}/>
+                            </div>
+                            <button type="submit" className="btn btn-primary mb-2">Submit</button>
+                        </form>
+                    </div>
+                    <div className="col-4"></div>
+                </div>
+                : null
+            }
             
         </div>
 
