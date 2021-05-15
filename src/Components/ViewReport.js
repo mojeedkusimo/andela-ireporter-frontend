@@ -24,6 +24,7 @@ let ViewReport = () => {
     let [title, setTitle] = useState("");
     let [context, setContext] = useState("");
     let [comment, setComment] = useState("");
+    let [userComment, setUserComment] = useState("");
 
     let handleSubmit = (e) => {
         e.preventDefault();
@@ -43,7 +44,8 @@ let ViewReport = () => {
                 if (res.data.status === "error") {
                     setError(res.data.data.message);
     
-                } else {
+                } 
+                else {
                     alert(res.data.data.message);
                     history.push("/all-reports");
                 }
@@ -99,11 +101,22 @@ let ViewReport = () => {
     }
 
     useEffect(() => {
-        let getReport = async() => {
-            let fetchData = await axios.get(`view-report/${viewReport}`);
-            setReport(fetchData.data.data.message);
+        let getReportData = async() => {
+            let fetchReport = await axios.get(`view-report/${viewReport}`);
+            setReport(fetchReport.data.data.message);
 
-            if (fetchData.data.status === "success") {
+            let fetchComments = await axios.get(`comments/${viewReport}`);
+            // setUserComment(fetchComments.data.data.message);
+
+            let allComments = fetchComments.data.data.message.map((data) => {
+
+                return (
+                    <p className='bg-light p-4'>{data.firstname}: {data.comment}</p>
+                )
+            });
+            setUserComment(allComments);
+
+            if (fetchReport.data.status === "success") {
                 let statusArray = ["open", "under investigation", "rejected", "resolved"];
                 let others = statusArray.map((s, i) => {
                     if ( s !== report.status ) {
@@ -116,7 +129,7 @@ let ViewReport = () => {
                 setOtherStatus(others);
             }            
         }
-        getReport();
+        getReportData();
     },[setOtherStatus, setReport, report.status, viewReport]);
 
     let modify = user !== null ? // dynamically display divs below since a user is logged in
@@ -236,13 +249,16 @@ const mapStyles = {
                     <div className="col-4"></div>
                     <div className="col-4">
                         <h1 className="m-5 text-center shadow-lg">Comment</h1>
-                        <form className="bg-light p-5 mb-5" onSubmit={(e) => handleSubmit(e)}>
+                        <form className="bg-light p-4 mb-5" onSubmit={(e) => handleSubmit(e)}>
                         <span className="text-danger">{error}</span>
                             <div className="form-group">
                                 <textarea type="text" className="form-control" id="description" placeholder="Write something here..." value={comment} onChange={(e)=> setComment(e.target.value)}/>
                             </div>
                             <button type="submit" className="btn btn-primary mb-2">Submit</button>
                         </form>
+
+                        {/* View Comments */}
+                        {userComment ? userComment: null}
                     </div>
                     <div className="col-4"></div>
                 </div>
