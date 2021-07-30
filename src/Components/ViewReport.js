@@ -108,13 +108,13 @@ let ViewReport = () => {
             let fetchComments = await axios.get(`comments/${viewReport}`);
             // setUserComment(fetchComments.data.data.message);
 
-            let allComments = fetchComments.data.data.message.map((data) => {
+            // let allComments = fetchComments.data.data.message.map((data) => {
 
-                return (
-                    <p className='bg-light p-4'>{data.firstname}: {data.comment}</p>
-                )
-            });
-            setUserComment(allComments);
+            //     return (
+            //         <p className='bg-light p-4'>{data.firstname}: {data.comment}</p>
+            //     )
+            // });
+            // setUserComment(allComments);
 
             if (fetchReport.data.status === "success") {
                 let statusArray = ["open", "under investigation", "rejected", "resolved"];
