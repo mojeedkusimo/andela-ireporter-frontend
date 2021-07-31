@@ -106,15 +106,19 @@ let ViewReport = () => {
             setReport(fetchReport.data.data.message);
 
             let fetchComments = await axios.get(`comments/${viewReport}`);
-            // setUserComment(fetchComments.data.data.message);
 
-            // let allComments = fetchComments.data.data.message.map((data) => {
+            let allComments = fetchComments.data.data.message.map((data) => {
 
-            //     return (
-            //         <p className='bg-light p-4'>{data.firstname}: {data.comment}</p>
-            //     )
-            // });
-            // setUserComment(allComments);
+                if (report.firstname === data.firstname) {
+                    return (
+                        <p className='bg-light p-4'>{data.firstname}<small className="bg-primary p-1 ml-1 rounded text-white">Author</small>: {data.comment}</p>
+                    )                        
+                }
+                return (
+                    <p className='bg-light p-4'>{data.firstname}: {data.comment}</p>
+                )
+            });
+            setUserComment(allComments);
 
             if (fetchReport.data.status === "success") {
                 let statusArray = ["open", "under investigation", "rejected", "resolved"];
@@ -130,7 +134,7 @@ let ViewReport = () => {
             }            
         }
         getReportData();
-    },[setOtherStatus, setReport, report.status, viewReport]);
+    },[setOtherStatus, setReport, report.status, viewReport, report.firstname]);
 
     let modify = user !== null ? // dynamically display divs below since a user is logged in
                         user.firstname === report.firstname ? // dsiplay next line since its the author

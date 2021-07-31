@@ -14,30 +14,6 @@ let Navbar = () => {
         
     }
 
-//    let payWithPaystack = (e) => {
-//         e.preventDefault();
-//         console.log(this.state)
-//         var handler = PaystackPop.setup({
-//           key: 'pk_live_86427d342d15cd83c8bc4675b31b86d364e9c502', // Replace with your public key
-//           email: this.state.email,
-//           amount: this.state.amount * 100, // the amount value is multiplied by 100 to convert to the lowest currency unit
-//           currency: 'NGN', // Use GHS for Ghana Cedis or USD for US Dollars
-//           firstname: this.state.firstname,
-//           lastname: this.state.lastname,
-//           // reference: 'YOUR_REFERENCE', // Replace with a reference you generated
-//           callback: function(response) {
-//             //this happens after the payment is completed successfully
-//             var reference = response.reference;
-//             // alert('Payment complete! \n Your reference number is: ' + reference);
-//             // Make an AJAX call to your server with the reference to verify the transaction
-//           },
-//           onClose: function() {
-//             alert('Transaction was not completed');
-//           },
-//         });
-//         handler.openIframe();
-//       }
-
     return (
         <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top row">
