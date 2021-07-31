@@ -16,3 +16,4 @@
 ### 8. The user gets real-time email notification when Admin changes the "status" of their record.
 ### 9. The user gets real-time email notification when anyone comments on the user's report.
 ### 10. Only the user who created the "red-flag" or "intervention" record can delete the record.
+### 11. Donations can be made on the platform.
